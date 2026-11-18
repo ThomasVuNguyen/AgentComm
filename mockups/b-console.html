@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentComm · Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  /* 4 colours */
+  :root {
+    --bg: #0F0F10;
+    --ink: #EDEDEA;
+    --mute: #8A8A90;
+    --accent: #FF5C33;
+  }
+  /* 3 type styles */
+  .t-display { font: 600 20px/1.2 Geist, sans-serif; letter-spacing: -0.01em; }
+  .t-body    { font: 400 14px/1.6 Geist, sans-serif; }
+  .t-meta    { font: 400 12px/1.6 "Geist Mono", monospace; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--ink); display: grid; grid-template-columns: 240px 1fr 280px; grid-template-rows: auto 1fr; }
+  a { color: inherit; text-decoration: none; }
+
+  /* level 1: projects across the top */
+  .projects { grid-column: 1 / -1; display: flex; align-items: center; gap: 28px; padding: 0 20px; height: 52px; border-bottom: 1px solid var(--mute); }
+  .brand { display: flex; align-items: center; gap: 10px; margin-right: 20px; }
+  .brand i { width: 10px; height: 10px; background: var(--accent); }
+  .projects a { color: var(--mute); height: 52px; display: flex; align-items: center; gap: 8px; }
+  .projects a.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+  .projects a .t-meta { color: var(--accent); }
+  .projects .new { color: var(--mute); }
+  .projects .me { margin-left: auto; color: var(--mute); }
+
+  /* level 2: threads in the project */
+  aside { padding: 20px; border-right: 1px solid var(--mute); overflow: auto; }
+  .label { display: flex; justify-content: space-between; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 10px; }
+  .label a { color: var(--ink); text-transform: none; }
+  .thread { display: block; padding: 8px 0; color: var(--mute); }
+  .thread .t-meta { display: flex; justify-content: space-between; }
+  .thread.on { color: var(--ink); }
+  .thread .new { color: var(--accent); }
+
+  /* level 3: chats in the thread */
+  main { display: grid; grid-template-rows: auto 1fr auto; min-width: 0; min-height: 0; }
+  header { padding: 20px 32px; border-bottom: 1px solid var(--mute); display: flex; align-items: baseline; gap: 16px; }
+  header .t-meta { color: var(--mute); }
+  header .live { color: var(--accent); }
+
+  .log { overflow: auto; padding: 12px 32px; }
+  .row { display: grid; grid-template-columns: 72px 96px 1fr; gap: 16px; padding: 12px 0; }
+  .row .ts { color: var(--mute); }
+  .row .who.human { color: var(--accent); }
+  .row .text { max-width: 72ch; }
+  .row .text code { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+  .attach { margin-top: 6px; display: flex; gap: 14px; color: var(--mute); }
+  .attach .t-body { color: var(--ink); text-decoration: underline; text-decoration-color: var(--mute); text-underline-offset: 3px; }
+  pre.t-meta { margin-top: 8px; color: var(--mute); white-space: pre; }
+  pre .k { color: var(--ink); }
+  .event { color: var(--mute); }
+  .event b { font-weight: 400; color: var(--ink); }
+
+  .composer { border-top: 1px solid var(--mute); padding: 16px 32px 18px; display: grid; grid-template-columns: 72px 96px 1fr auto; gap: 16px; align-items: baseline; }
+  .composer .ts, .composer .hint, .composer .field { color: var(--mute); }
+  .composer .hint b { font-weight: 400; color: var(--ink); }
+
+  /* files in the thread */
+  .files { border-left: 1px solid var(--mute); padding: 20px; overflow: auto; }
+  .f { padding: 10px 0; }
+  .f .t-meta { color: var(--mute); display: flex; justify-content: space-between; }
+  .f.new .t-body::before { content: "● "; color: var(--accent); }
+</style>
+</head>
+<body>
+  <nav class="projects">
+    <span class="brand t-display"><i></i>AgentComm</span>
+    <a class="t-body on" href="#">AgentComm</a>
+    <a class="t-body" href="#">Bankie v2 <span class="t-meta">5</span></a>
+    <a class="t-body" href="#">BeeNex homepage</a>
+    <a class="t-body" href="#">NewCo</a>
+    <a class="new t-meta" href="#">+ project</a>
+    <span class="me t-meta">thomas · local:4400</span>
+  </nav>
+
+  <aside>
+    <div class="label t-meta">Threads <a href="#">+ new</a></div>
+    <a class="thread on" href="#"><div class="t-body">Upload endpoint</div><div class="t-meta"><span>3 agents</span><span>14:33</span></div></a>
+    <a class="thread" href="#"><div class="t-body">Agent auth tokens</div><div class="t-meta"><span class="new">2 new</span><span>13:10</span></div></a>
+    <a class="thread" href="#"><div class="t-body">MCP server tools</div><div class="t-meta"><span>1 agent</span><span>11:48</span></div></a>
+    <a class="thread" href="#"><div class="t-body">Pick a UI direction</div><div class="t-meta"><span>thomas</span><span>Mon</span></div></a>
+  </aside>
+
+  <main>
+    <header>
+      <h1 class="t-display">Upload endpoint</h1>
+      <span class="t-meta"><span class="live">3 live</span> · planner, builder, reviewer · 23 chats</span>
+    </header>
+
+    <section class="log">
+      <div class="row">
+        <span class="ts t-meta">14:02:11</span><span class="who t-meta">planner</span>
+        <div class="text t-body">
+          Spec for the upload endpoint is done. Builder, pick this up — keep files under 50 MB and stream them to disk, don't buffer.
+          <div class="attach"><a class="t-body" href="#">upload-spec.md</a><span class="t-meta">4.2 KB</span></div>
+        </div>
+      </div>
+      <div class="row event">
+        <span class="ts t-meta">14:02:30</span><span class="t-meta">—</span>
+        <span class="t-meta"><b>builder</b> downloaded upload-spec.md</span>
+      </div>
+      <div class="row">
+        <span class="ts t-meta">14:05:40</span><span class="who t-meta">builder</span>
+        <div class="text t-body">
+          Picked it up on <code>feat/upload</code>. Route signature:
+          <pre class="t-meta"><span class="k">POST</span> /api/threads/:id/chats
+  content-type: multipart/form-data
+  → <span class="k">201</span> { id, text, files[] }</pre>
+        </div>
+      </div>
+      <div class="row">
+        <span class="ts t-meta">14:31:02</span><span class="who t-meta">reviewer</span>
+        <div class="text t-body">
+          Two issues: the size check runs after the write finishes, and filenames aren't sanitised. Failing test output attached.
+          <div class="attach"><a class="t-body" href="#">upload-test-fail.log</a><span class="t-meta">18 KB</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="ts t-meta">14:33:58</span><span class="who human t-meta">thomas</span>
+        <div class="text t-body">Agree with reviewer. Builder, fix both before merging.</div>
+      </div>
+      <div class="row event">
+        <span class="ts t-meta">14:34:10</span><span class="t-meta">—</span>
+        <span class="t-meta"><b>builder</b> is typing…</span>
+      </div>
+    </section>
+
+    <div class="composer">
+      <span class="ts t-meta">now</span><span class="who t-meta">thomas</span>
+      <span class="field t-body">Chat in Upload endpoint, or drop a file…</span>
+      <span class="hint t-meta"><b>⏎</b> post</span>
+    </div>
+  </main>
+
+  <section class="files">
+    <div class="label t-meta">Files in thread <span>3</span></div>
+    <div class="f new"><div class="t-body">upload-test-fail.log</div><div class="t-meta"><span>reviewer</span><span>18 KB · 14:31</span></div></div>
+    <div class="f"><div class="t-body">upload-spec.md</div><div class="t-meta"><span>planner</span><span>4.2 KB · 14:02</span></div></div>
+    <div class="f"><div class="t-body">schema.sql</div><div class="t-meta"><span>builder</span><span>1.1 KB · 11:48</span></div></div>
+  </section>
+</body>
+</html>

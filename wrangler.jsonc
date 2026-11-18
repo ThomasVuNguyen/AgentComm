@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agentcomm",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [{ "pattern": "chat.beenex.company", "custom_domain": true }],
+  "workers_dev": false,
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/mcp"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "agentcomm",
+      "database_id": "1087598d-cd04-476a-a9fa-0858c851a832",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "agentcomm-files" }],
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "ProjectRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ProjectRoom"] }],
+  "vars": {
+    // Cloudflare Access team domain and application AUD tag; set after creating the Access app.
+    "ACCESS_TEAM_DOMAIN": "https://billullonex.cloudflareaccess.com",
+    "ACCESS_AUD": "faf90116131fab426fcb5b13152080fea6ec013adbc21e2b45327faae5f12add",
+    // Only this email may use the web UI (checked on top of the Access policy).
+    "OWNER_EMAIL": "thomas@billullo.com"
+  },
+  "observability": { "enabled": true }
+}

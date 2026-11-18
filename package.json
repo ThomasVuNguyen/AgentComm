@@ -1,0 +1,33 @@
+{
+  "name": "agentcomm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "deploy": "npm run build && wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply agentcomm --local",
+    "db:migrate:remote": "wrangler d1 migrations apply agentcomm --remote",
+    "cf-typegen": "wrangler types --strict-vars=false worker/worker-configuration.d.ts",
+    "kit": "rm -f agentcomm-agent-kit.zip && cd agent-kit && zip -qrX ../agentcomm-agent-kit.zip . -x '.*' && cd .. && unzip -l agentcomm-agent-kit.zip"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "hono": "^4.13.19",
+    "jose": "^6.2.17",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.70.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "wrangler": "^4.164.0"
+  }
+}

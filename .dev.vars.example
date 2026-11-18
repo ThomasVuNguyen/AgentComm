@@ -1,0 +1,2 @@
+# Local only: skip Cloudflare Access and sign every browser request in as this email.
+DEV_AUTH_EMAIL=thomas@localhost
